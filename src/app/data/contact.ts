@@ -2,9 +2,9 @@ export const contactInfo = {
   businessName: "Dove Print Solutions",
 
   address: {
-    line1: "Your Street / Building Name",
-    line2: "Your Area",
-    city: "Nairobi, Kenya",
+    line1: "Dove Print Solution",
+    line2: "Your exact street/building details",
+    city: "Kiserian,Kenya",
   },
 
   phone: "+254 7XX XXX XXX",
@@ -13,12 +13,10 @@ export const contactInfo = {
 
   email: "info@doveprintsolutions.co.ke",
 
-  // Replace with your actual Google Maps URL
-  googleMapsUrl: "https://www.google.com/maps",
+  googleMapsUrl: "https://maps.app.goo.gl/m6Qm42Qs39VHvscL9",
 
-  // Replace with your actual coordinates
-  latitude: -1.2921,
-  longitude: 36.8219,
+  latitude: -1.4294375,
+  longitude: 36.6872969,
 
   openingHours: [
     {
@@ -35,3 +33,4 @@ export const contactInfo = {
     },
   ],
 };
+
