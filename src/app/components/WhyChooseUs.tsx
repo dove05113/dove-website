@@ -104,7 +104,7 @@ export default function WhyChooseUs() {
                 FLOATING STAT CARD
             ================================================== */}
 
-            <div className="absolute -bottom-6 right-5 rounded-2xl border border-white/50 bg-white/90 p-5 shadow-xl backdrop-blur-md sm:-right-6 sm:p-6">
+            <div className="absolute top-6 right-5 rounded-2xl border border-white/50 bg-white/90 p-5 shadow-xl backdrop-blur-md sm:-right-6 sm:p-6">
 
               <div className="flex items-center gap-4">
 

@@ -3,15 +3,15 @@ export const contactInfo = {
 
   address: {
     line1: "Dove Print Solution",
-    line2: "Your exact street/building details",
-    city: "Kiserian,Kenya",
+    line2: "Near K2 Butchery",
+    city: "Kiserian",
   },
 
-  phone: "+254 7XX XXX XXX",
+  phone: "+254 717 534 762",
 
-  whatsapp: "+254 7XX XXX XXX",
+  whatsapp: "+254 717 534 762",
 
-  email: "info@doveprintsolutions.co.ke",
+  email: "dove05113@gmail.com",
 
   googleMapsUrl: "https://maps.app.goo.gl/m6Qm42Qs39VHvscL9",
 
