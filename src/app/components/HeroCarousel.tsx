@@ -3,12 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  Check,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Check } from "lucide-react";
 
 import { carouselSlides } from "@/app/data/carousel";
 
@@ -20,60 +15,48 @@ export default function HeroCarousel() {
 
   const slide = carouselSlides[current];
 
-  /*
-   * Move to next slide
-   */
   const nextSlide = useCallback(() => {
     setCurrent((previous) =>
-      previous === carouselSlides.length - 1 ? 0 : previous + 1
+      previous === carouselSlides.length - 1 ? 0 : previous + 1,
     );
   }, []);
 
-  /*
-   * Move to previous slide
-   */
   const previousSlide = useCallback(() => {
     setCurrent((previous) =>
-      previous === 0 ? carouselSlides.length - 1 : previous - 1
+      previous === 0 ? carouselSlides.length - 1 : previous - 1,
     );
   }, []);
 
-  /*
-   * Go directly to a slide
-   */
   const goToSlide = (index: number) => {
     setCurrent(index);
   };
 
-  /*
-   * Automatic slideshow - 5 seconds
-   */
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || carouselSlides.length <= 1) return;
 
-    const timer = setInterval(() => {
-      nextSlide();
-    }, AUTOPLAY_DURATION);
+    const timer = setInterval(nextSlide, AUTOPLAY_DURATION);
 
     return () => clearInterval(timer);
   }, [isPaused, nextSlide]);
 
+  if (carouselSlides.length === 0) return null;
+
   return (
     <section
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden bg-gray-950"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setIsPaused(false);
+        }
+      }}
+      aria-roledescription="carousel"
+      aria-label="Featured services"
     >
-      {/* =====================================================
-          MAIN CAROUSEL
-      ====================================================== */}
-
-      <div className="relative min-h-[650px] w-full overflow-hidden sm:min-h-[700px] lg:min-h-[720px]">
-
-        {/* =====================================================
-            BACKGROUND IMAGE
-        ====================================================== */}
-
+      <div className="relative min-h-[650px] w-full sm:min-h-[700px] lg:min-h-[720px]">
+        {/* Background image */}
         <div
           key={`image-${slide.id}`}
           className="absolute inset-0 animate-carousel-image"
@@ -88,135 +71,114 @@ export default function HeroCarousel() {
           />
         </div>
 
-        {/* =====================================================
-            DARK IMAGE OVERLAY
-        ====================================================== */}
+        {/* Contrast overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/10" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/45 to-transparent" />
 
-        <div className="absolute inset-0 bg-black/35" />
-
-        {/* Extra gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
-
-        {/* =====================================================
-            SLIDE NUMBER
-        ====================================================== */}
-
-        <div className="absolute right-6 top-6 z-20 rounded-full border border-white/20 bg-black/30 px-4 py-2 text-sm font-medium text-white backdrop-blur-md sm:right-10 sm:top-10">
-          {String(current + 1).padStart(2, "0")} /{" "}
-          {String(carouselSlides.length).padStart(2, "0")}
+        {/* Slide counter */}
+        <div className="absolute right-6 top-6 z-30 flex items-center gap-2 text-sm font-medium tabular-nums text-white sm:right-10 sm:top-10">
+          <span className="text-lg font-bold">
+            {String(current + 1).padStart(2, "0")}
+          </span>
+          <span className="text-white/50">/</span>
+          <span className="text-white/70">
+            {String(carouselSlides.length).padStart(2, "0")}
+          </span>
         </div>
 
-        {/* =====================================================
-            PREVIOUS BUTTON
-        ====================================================== */}
-
-        <button
-          type="button"
-          onClick={previousSlide}
-          aria-label="Previous slide"
-          className="absolute left-4 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 sm:left-8 sm:h-12 sm:w-12"
-        >
-          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-        </button>
-
-        {/* =====================================================
-            NEXT BUTTON
-        ====================================================== */}
-
-        <button
-          type="button"
-          onClick={nextSlide}
-          aria-label="Next slide"
-          className="absolute right-4 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 sm:right-8 sm:h-12 sm:w-12"
-        >
-          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
-        </button>
-
-        {/* =====================================================
-            DESCRIPTION / GLASS PANEL
-        ====================================================== */}
-
-        <div className="relative z-20 flex min-h-[650px] items-center px-6 py-20 sm:min-h-[700px] sm:px-12 lg:min-h-[720px] lg:px-24">
-
+        {/* Main content */}
+        <div className="relative z-20 flex min-h-[650px] items-center px-6 py-24 sm:min-h-[700px] sm:px-12 lg:min-h-[720px] lg:px-24 xl:px-32">
           <div
             key={`content-${slide.id}`}
-            className="w-full max-w-2xl animate-carousel-content"
+            className="w-full max-w-3xl animate-carousel-content"
           >
-            {/* =================================================
-                GLASS DESCRIPTION BOX
-            ================================================== */}
+            {/* Eyebrow */}
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-1 w-10 bg-blue-500" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-white sm:text-sm">
+                {slide.eyebrow}
+              </span>
+            </div>
 
-            <div className="rounded-3xl border border-white/20 bg-white/15 p-7 shadow-2xl backdrop-blur-xl sm:p-10 lg:p-12">
+            {/* Heading */}
+            <h1 className="max-w-3xl text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-7xl">
+              {slide.title}
+            </h1>
 
-              {/* Eyebrow */}
-              <div className="mb-5 flex items-center gap-3">
-                <span className="h-px w-10 bg-white" />
+            {/* Description */}
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8">
+              {slide.description}
+            </p>
 
-                <span className="text-xs font-bold tracking-[0.2em] text-white sm:text-sm">
-                  {slide.eyebrow}
-                </span>
-              </div>
-
-              {/* Heading */}
-              <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-                {slide.title}
-              </h1>
-
-              {/* Description */}
-              <p className="mt-6 max-w-xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8">
-                {slide.description}
-              </p>
-
-              {/* Features */}
-              <div className="mt-7 space-y-3">
-                {slide.features.map((feature) => (
-                  <div
-                    key={feature}
-                    className="flex items-center gap-3 text-sm text-white sm:text-base"
-                  >
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                      <Check className="h-4 w-4 text-white" />
-                    </span>
-
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <div className="mt-8">
-                <Link
-                  href={slide.buttonLink}
-                  className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 hover:shadow-xl"
+            {/* Features */}
+            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
+              {slide.features.map((feature) => (
+                <div
+                  key={feature}
+                  className="flex items-center gap-2 text-sm font-medium text-white sm:text-base"
                 >
-                  {slide.buttonText}
+                  <Check className="h-4 w-4 shrink-0 text-blue-400" />
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
 
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </div>
+            {/* CTA */}
+            <div className="mt-9">
+              <Link
+                href={slide.buttonLink}
+                className="group inline-flex min-h-12 items-center gap-4 bg-blue-700 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                {slide.buttonText}
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* =====================================================
-            SLIDE INDICATORS
-        ====================================================== */}
-
-        <div className="absolute bottom-7 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
-          {carouselSlides.map((item, index) => (
+        {/* Previous / next controls */}
+        {carouselSlides.length > 1 && (
+          <div className="absolute bottom-8 right-6 z-30 flex items-center gap-2 sm:right-10 lg:right-12">
             <button
-              key={item.id}
               type="button"
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              className={`h-2.5 rounded-full transition-all duration-500 ${
-                index === current
-                  ? "w-10 bg-white"
-                  : "w-2.5 bg-white/40 hover:bg-white/70"
-              }`}
-            />
-          ))}
-        </div>
+              onClick={previousSlide}
+              aria-label="Previous slide"
+              className="flex h-11 w-11 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={nextSlide}
+              aria-label="Next slide"
+              className="flex h-11 w-11 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        )}
+
+        {/* Slide indicators */}
+        {carouselSlides.length > 1 && (
+          <div className="absolute bottom-12 left-6 z-30 flex items-center gap-2 sm:left-12 lg:left-24 xl:left-32">
+            {carouselSlides.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+                aria-current={index === current ? "true" : undefined}
+                className={`h-1 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white ${
+                  index === current
+                    ? "w-10 bg-blue-500"
+                    : "w-5 bg-white/50 hover:bg-white"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
