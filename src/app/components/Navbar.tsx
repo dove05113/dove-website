@@ -49,10 +49,7 @@ export default function Navbar() {
 
           {/* Services Dropdown */}
           <div className="group relative">
-            <Link
-              href="/services"
-              className={navLinkClass} 
-            >
+            <Link href="/services" className={navLinkClass}>
               Services
             </Link>
           </div>
@@ -117,13 +114,13 @@ export default function Navbar() {
               </Link>
 
               {/* Services Accordion */}
-              <button
-                type="button"
+              <Link
+                href="/services"
                 onClick={closeMobileMenu}
                 className="flex w-full items-center justify-between py-3.5 text-left text-sm font-semibold text-gray-700 transition-colors hover:text-blue-700"
               >
                 Services
-              </button>
+              </Link>
               <Link
                 href="/catalogue"
                 onClick={closeMobileMenu}
