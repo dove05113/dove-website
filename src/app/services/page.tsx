@@ -376,6 +376,14 @@ function ServiceGroup({
                   </p>
                 )}
               </div>
+              {/* View Catalogue */}
+              <Link
+                href={`/catalogue?serviceId=${encodeURIComponent(service.id)}`}
+                className="group/link mt-5 inline-flex w-fit items-center gap-2 text-sm font-semibold text-gray-950 transition-colors hover:text-blue-700"
+              >
+                View catalogue
+                <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
+              </Link>
             </article>
           );
         })}

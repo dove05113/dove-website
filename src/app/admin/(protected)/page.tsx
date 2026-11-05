@@ -34,6 +34,12 @@ const sections = [
     href: "/admin/business",
     icon: Globe2,
   },
+  {
+    title: "Catalogue",
+    description: "Manage catalogue gallery displayed on the website.",
+    href: "/admin/catalogue",
+    icon: Image,
+  },
 ];
 
 export default function AdminPage() {
@@ -148,7 +154,6 @@ export default function AdminPage() {
               Authenticated access
             </p>
           </div>
-
         </section>
 
         {/* Management */}
@@ -232,6 +237,15 @@ export default function AdminPage() {
             >
               <Globe2 className="h-4 w-4" />
               Business information
+            </button>
+
+            <button
+              type="button"
+              onClick={() => router.push("/admin/catalogue")}
+              className="inline-flex items-center gap-2 rounded-md border border-neutral-200 bg-white px-4 py-2.5 text-sm font-medium transition hover:border-neutral-300 hover:bg-neutral-50"
+            >
+              <Image className="h-4 w-4" />
+              Manage Catalogue
             </button>
           </div>
         </section>

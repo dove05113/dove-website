@@ -7,18 +7,6 @@ import { ChevronDown, Menu, X, MapPin, Phone, ArrowUpRight } from "lucide-react"
 
 import { contactInfo } from "@/app/data/contact";
 
-const serviceLinks = [
-  { label: "All Services", href: "/services" },
-  { label: "Printing Services", href: "/services/printing" },
-  { label: "Document Services", href: "/services/documents" },
-  { label: "Online Services", href: "/services/online" },
-  { label: "Graphic Design", href: "/services/design" },
-  { label: "Scanning Services", href: "/services/scanning" },
-  { label: "Photocopying", href: "/services/photocopying" },
-  { label: "Binding & Lamination", href: "/services/binding" },
-  { label: "Computer Services", href: "/services/computers" },
-];
-
 const navLinkClass =
   "text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-blue-700";
 
@@ -63,45 +51,21 @@ export default function Navbar() {
           <div className="group relative">
             <Link
               href="/services"
-              className={`${navLinkClass} inline-flex items-center gap-1.5 py-7`}
+              className={navLinkClass} 
             >
               Services
-              <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" />
             </Link>
-
-            <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-2 border border-gray-200 bg-white opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              <div className="border-b border-gray-100 px-4 py-3">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">
-                  What we offer
-                </p>
-              </div>
-
-              {serviceLinks.map((service) => (
-                <Link
-                  key={service.href}
-                  href={service.href}
-                  className="flex items-center justify-between border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-600 transition-colors last:border-b-0 hover:bg-gray-50 hover:text-blue-700"
-                >
-                  {service.label}
-                  <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
-                </Link>
-              ))}
-            </div>
           </div>
 
-          <Link href="/pricing" className={navLinkClass}>
-            Pricing
+          <Link href="/catalogue" className={navLinkClass}>
+            Catalogue
           </Link>
 
-          <Link href="/about" className={navLinkClass}>
-            About Us
-          </Link>
-
-          <Link href="/location" className={navLinkClass}>
+          <Link href="/#location" className={navLinkClass}>
             Location
           </Link>
 
-          <Link href="/contact" className={navLinkClass}>
+          <Link href="/#contact-cta" className={navLinkClass}>
             Contact
           </Link>
         </div>
@@ -155,51 +119,21 @@ export default function Navbar() {
               {/* Services Accordion */}
               <button
                 type="button"
-                onClick={() => setServicesOpen((open) => !open)}
+                onClick={closeMobileMenu}
                 className="flex w-full items-center justify-between py-3.5 text-left text-sm font-semibold text-gray-700 transition-colors hover:text-blue-700"
-                aria-expanded={servicesOpen}
               >
                 Services
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    servicesOpen ? "rotate-180" : ""
-                  }`}
-                />
               </button>
-
-              {servicesOpen && (
-                <div className="mb-3 ml-3 border-l-2 border-blue-700 pl-4">
-                  {serviceLinks.map((service) => (
-                    <Link
-                      key={service.href}
-                      href={service.href}
-                      onClick={closeMobileMenu}
-                      className="block py-2.5 text-sm text-gray-500 transition-colors hover:text-blue-700"
-                    >
-                      {service.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-
               <Link
-                href="/pricing"
+                href="/catalogue"
                 onClick={closeMobileMenu}
                 className="block py-3.5 text-sm font-semibold text-gray-700 transition-colors hover:text-blue-700"
               >
-                Pricing
+                Catalogue
               </Link>
 
               <Link
-                href="/about"
-                onClick={closeMobileMenu}
-                className="block py-3.5 text-sm font-semibold text-gray-700 transition-colors hover:text-blue-700"
-              >
-                About Us
-              </Link>
-
-              <Link
-                href="/location"
+                href="/#location"
                 onClick={closeMobileMenu}
                 className="flex items-center gap-2 py-3.5 text-sm font-semibold text-gray-700 transition-colors hover:text-blue-700"
               >
@@ -208,7 +142,7 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/contact"
+                href="/#contact-cta"
                 onClick={closeMobileMenu}
                 className="block py-3.5 text-sm font-semibold text-gray-700 transition-colors hover:text-blue-700"
               >

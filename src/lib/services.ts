@@ -34,6 +34,21 @@ export interface CreateServiceData {
   pricingType: "fixed" | "custom";
 }
 
+export interface Service {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  group: "cyber" | "design";
+  category: string;
+  imageUrl: string;
+  featured: boolean;
+  active: boolean;
+  sortOrder: number;
+  pricing: PricingOption[];
+  pricingType: "fixed" | "custom";
+}
+
 export type UpdateServiceData = Partial<CreateServiceData>;
 
 /*
@@ -52,15 +67,14 @@ export async function createService(data: CreateServiceData) {
 /*
   READ ALL
 */
-export async function getServices() {
+export async function getServices(): Promise<Service[]> {
   const q = query(servicesCollection, orderBy("sortOrder", "asc"));
-
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map((document) => ({
     id: document.id,
     ...document.data(),
-  }));
+  })) as Service[];
 }
 
 /*
